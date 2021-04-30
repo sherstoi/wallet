@@ -41,20 +41,20 @@ public class WalletService {
         if (transactionRepository.existsById(transaction.getId())) {
             throw new TransactionIsNotUniqueException(String.format("Transaction with id:{%s} already processed!", transaction.getId()));
         }
-        Player player = playerRepository.findById(playerId).
+        var player = playerRepository.findById(playerId).
                 orElseThrow(() -> new PlayerNotFoundException(String.format("Player with id:{%s} doesn't exists!", playerId)));
 
-        BigDecimal balance = transaction.getAmount().compareTo(BigDecimal.ZERO) < 0 ?
-                player.getBalance().subtract(transaction.getAmount().multiply(BigDecimal.valueOf(-1))) :
-                player.getBalance().add(transaction.getAmount());
-        if (balance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new PlayerAmountIsNotEnoughException(String.format("Not enough money to complete transaction! " +
-                    "Current player balance: {%s}, transaction amount: {%s}", player.getBalance(), transaction.getAmount()));
-        }
+        synchronized (player) {
+            BigDecimal balance = player.getBalance().add(transaction.getAmount());
+            if (balance.compareTo(BigDecimal.ZERO) < 0) {
+                throw new PlayerAmountIsNotEnoughException(String.format("Not enough money to complete transaction! " +
+                        "Current player balance: {%s}, transaction amount: {%s}", player.getBalance(), transaction.getAmount()));
+            }
 
-        player.setBalance(balance);
-        player.getTransactions().add(transaction);
-        playerRepository.saveAndFlush(player);
+            player.setBalance(balance);
+            player.getTransactions().add(transaction);
+            playerRepository.saveAndFlush(player);
+        }
 
         return PlayerMapper.INSTANCE.toPlayerDTO(player);
     }

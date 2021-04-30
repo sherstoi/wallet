@@ -5,10 +5,7 @@ import com.leo.dto.TransactionDTO;
 import com.leo.entity.Transaction;
 import com.leo.service.WalletService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +25,7 @@ public class WalletController {
         return walletService.getTransactionsByPlayerId(playerId);
     }
 
+    @PostMapping("/wallet/player/{playerId}")
     public PlayerDTO makeTransaction(@PathVariable String playerId, @RequestBody Transaction transaction) {
         return walletService.executeTransaction(playerId, transaction);
     }
