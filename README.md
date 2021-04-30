@@ -35,7 +35,7 @@
 - Post: `/wallet/player/{id}` 
 
 `curl -X POST "http://localhost:8080/wallet/player/12345" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"amount\": 1001, \"id\": 23457}"`
------------------------------------------------------------------------------------------------
+
 
 For testing purposes I'm loading player with id `12345` to H2 so you can check endpoints output.
 
