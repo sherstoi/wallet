@@ -38,8 +38,8 @@ public class Config {
             List<Transaction> list = new ArrayList<>();
             list.add(new Transaction(UUID.randomUUID().toString(), BigDecimal.ONE));
 
-            log.info("Loading " + playerRepository.saveAndFlush(new Player("12345", BigDecimal.TEN, "Jhon", new ArrayList<>())));
-            log.info("Loading " + playerRepository.saveAndFlush(new Player(UUID.randomUUID().toString(), BigDecimal.ONE, "Kate", new ArrayList<>(list))));
+            log.info("Loading " + playerRepository.saveAndFlush(new Player("12345", BigDecimal.TEN, "Jhon", new ArrayList<>(list))));
+            log.info("Loading " + playerRepository.saveAndFlush(new Player(UUID.randomUUID().toString(), BigDecimal.ONE, "Kate", new ArrayList<>())));
         };
     }
 }
