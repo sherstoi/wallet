@@ -30,7 +30,6 @@
 `curl -X GET "http://localhost:8080/wallet/player/12345/balance" -H "accept: */*"`
 
 - Get:  `/wallet/player/{id}/transactions`
-
 `curl -X GET "http://localhost:8080/wallet/player/12345/transaction" -H "accept: */*"`
 
 - Post: `/wallet/player/{id}` 
